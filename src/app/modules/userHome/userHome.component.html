@@ -1,0 +1,14 @@
+
+<header class="">
+    <h3 routerLink="/">Events Manager</h3>
+    <div class="flex flex-row gap-4 align-items-center">
+        <p class="font-bold" >Hola, {{ user.name}} </p>
+        <p-avatar image="src/resources/profile.png" class="mr-2" size="xlarge" shape="circle" />
+    </div>
+</header>
+<div class="mt-0" style="background-color: var(--p-orange-50);">
+    @if (!isHome()) {
+        <agent-breadcrumb [items]="breadCrumbItems" ></agent-breadcrumb>
+    }
+    <router-outlet></router-outlet>
+</div>

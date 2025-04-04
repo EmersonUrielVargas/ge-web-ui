@@ -1,0 +1,17 @@
+
+<div class="content-breadcrum grid my-2 mx-3 py-2 px-3 shadow-1 border-round-xl" styleClass="col-12 p-0 m-0" >
+    <p-breadcrumb class="max-w-full" styleClass="p-0 text-xs" [model]="items()">
+        <ng-template #item let-item>
+            @if (item.route) {
+                <a [routerLink]="item.route" class="p-breadcrumb-item-link">
+                    <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+                    <span class="text-primary font-semibold">{{ item.label }}</span>
+                </a>
+            } @else {
+                <a [routerLink]="item.url">
+                    <span class="text-color">{{ item.label }}</span>
+                </a>
+            }
+        </ng-template>
+    </p-breadcrumb>
+</div>

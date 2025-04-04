@@ -1,0 +1,16 @@
+<header>
+    <h3 routerLink="/">Agency Travel</h3>
+    <div class="flex align-items-center">
+        <p-button
+            routerLink="/login"
+            label="Iniciar sesion"
+            styleClass="bg-white-alpha-80"
+            variant="text"
+            [raised]="true"
+            icon="pi pi-user"
+        />
+    </div>
+</header>
+<div class="content-home bg-orange-400">
+    <router-outlet></router-outlet>
+</div>

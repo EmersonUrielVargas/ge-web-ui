@@ -1,0 +1,84 @@
+<div>
+    <form [formGroup]="eventForm" class="form_filters formgrid grid row-gap-2 mt-2 px-4 mb-6 ">
+        <p-inputgroup class="col-12 h-3rem">
+            <p-inputgroup-addon>
+                <i class="pi pi-id-card"></i>
+            </p-inputgroup-addon>
+            <p-floatlabel variant="on">
+                <input pInputText required id="name" formControlName="name" />
+                <label for="name">Nombre</label>
+            </p-floatlabel>
+        </p-inputgroup>
+
+        <div class="col-12 w-full pt-2">
+            <p-floatlabel variant="on">
+                <textarea
+                    class="w-full h-5rem"
+                    pTextarea
+                    [autoResize]="true"
+                    required
+                    id="description"
+                    formControlName="description"
+                ></textarea>
+                <label for="description">Descripción</label>
+            </p-floatlabel>
+        </div>
+
+        <div id="additional" class="col-12 w-full grid mt-1 row-gap-3">
+            <p-inputgroup class="col-12 sm:col-12 md:col-7">
+                <p-inputgroup-addon>
+                    <i class="pi pi-map-marker"></i>
+                </p-inputgroup-addon>
+                <p-floatlabel variant="in">
+                    <p-select
+                        class="font-medium"
+                        required
+                        formControlName="location"
+                        placeholder=""
+                        optionLabel="label"
+                        optionValue="value"
+                        [virtualScroll]="true"
+                        [virtualScrollItemSize]="20"
+                        [options]="cities"
+                        [showClear]="true"
+                        [filter]="true"
+                        inputId="location" />
+                    <label for="location">Ubicación</label>
+                </p-floatlabel>
+            </p-inputgroup>
+            <p-inputgroup class="col-12 h-3rem sm:col-12 md:col-5">
+                <p-inputgroup-addon>
+                    <i class="pi pi-users"></i>
+                </p-inputgroup-addon>
+                <p-floatlabel variant="on">
+                    <p-inputnumber 
+                        id="people_number"
+                        formControlName="attendeesSize"
+                        [showButtons]="true"
+                        inputId="people_number"
+                        mode="decimal"
+                        required="true"
+                        [min]="1"
+                        [max]="99"
+                    />
+                    <label for="people_number">Cupos del evento</label>
+                </p-floatlabel>
+            </p-inputgroup>
+        </div>
+        <p-inputgroup class="col-12 pt-3 w-full flex-column align-items-center">
+            <label class="font-medium p-3 w-full" for="eventDate">Fecha evento</label>
+            <p-datepicker
+                class ="w-min md:w-full md:px-8"
+                formControlName="eventDate"
+                [inline]="true"
+                [showTime]="true"
+                [hourFormat]="'24'"
+                [minDate]="minDate"
+                dateFormat="yy-mm-dd"
+                inputId="eventDate"
+                required="true"
+                >
+            </p-datepicker>
+        </p-inputgroup>
+    </form>
+</div>
