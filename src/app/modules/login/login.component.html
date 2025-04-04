@@ -85,7 +85,7 @@
                     [label]="isloggin()?'Iniciar sesion':'Registrarse'"
                     icon="pi pi-user"
                     class=""
-                    [disabled]="!loginForm.valid"
+                    [disabled]="!isValidButton()"
                 ></p-button>
             </form>
             <div class="w-full justify-content-center flex">

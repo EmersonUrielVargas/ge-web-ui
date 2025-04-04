@@ -106,10 +106,12 @@ export class LoginComponent implements OnInit{
     })
   }
 
-  passwordValidator(formGroup: AbstractControl): ValidationErrors | null {
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { passwordMismatch: true };
+
+  isValidButton(){
+    const password = this.loginForm.get('password')?.value;
+    const confirmPassword = this.loginForm.get('confirmPassword')?.value;
+    const validPassword =  password === confirmPassword;
+    return this.loginForm.valid && validPassword;
   }
 
   showLogginForm(show: boolean){
@@ -120,7 +122,7 @@ export class LoginComponent implements OnInit{
       
     } else {
       this.loginForm.get('name')?.setValidators([Validators.required]);
-      this.loginForm.get('confirmPassword')?.setValidators([Validators.required, this.passwordValidator]);
+      this.loginForm.get('confirmPassword')?.setValidators([Validators.required]);
       
     }
     setTimeout(() => this.cdr.detectChanges(), 1); 
