@@ -29,7 +29,6 @@ export class AuthService {
       map((data)=>{
         this.storage.saveItemSession(Constants.storageKeys.session.authToken, data.token);
         const dataUserDecode = JSON.parse(atob(data.token.split('.')[1]));
-        console.log(dataUserDecode)
         this.storage.saveItemSession(Constants.storageKeys.session.user, dataUserDecode);
         this.currentUser$.next(dataUserDecode);
         return {
