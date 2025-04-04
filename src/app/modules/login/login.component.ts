@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { CheckboxModule } from 'primeng/checkbox';
 import {StyleClassModule} from 'primeng/styleclass';
 import { ButtonModule } from 'primeng/button';
@@ -44,24 +44,17 @@ export class LoginComponent implements OnInit{
     private router: Router,
     private authService: AuthService,
     private messageService: MessageService,
+    private cdr: ChangeDetectorRef
     
   ){}
 
   ngOnInit(): void {
-    if (this.isloggin()) {
-      this.loginForm = new FormGroup({
-          email: new FormControl('',[Validators.required,Validators.email]),
-          password: new FormControl('',[Validators.required,Validators.minLength(8)]),
-      })
-    }else{
       this.loginForm = new FormBuilder().group({
-          name: new FormControl('',[Validators.required]),
+          name: new FormControl('',[]),
           email: new FormControl('',[Validators.required,Validators.email]),
           password: new FormControl('',[Validators.required,Validators.minLength(8)]),
-          confirmPassword: new FormControl('',[Validators.required,Validators.minLength(8)]),
-      },
-      { validators: this.passwordValidator })
-    }
+          confirmPassword: new FormControl('',[]),
+      })
   }
   sendForm(){
     if (this.isloggin()) {
@@ -121,6 +114,16 @@ export class LoginComponent implements OnInit{
 
   showLogginForm(show: boolean){
     this.isloggin.set(show);
+    if (this.isloggin()) {
+      this.loginForm.get('name')?.clearValidators();
+      this.loginForm.get('confirmPassword')?.clearValidators();
+      
+    } else {
+      this.loginForm.get('name')?.setValidators([Validators.required]);
+      this.loginForm.get('confirmPassword')?.setValidators([Validators.required, this.passwordValidator]);
+      
+    }
+    setTimeout(() => this.cdr.detectChanges(), 1); 
   }
 
 }
