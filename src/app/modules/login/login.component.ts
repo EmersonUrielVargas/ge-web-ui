@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit{
   isValidButton(){
     const password = this.loginForm.get('password')?.value;
     const confirmPassword = this.loginForm.get('confirmPassword')?.value;
-    const validPassword =  password === confirmPassword;
+    const validPassword =  this.isloggin()? true : password === confirmPassword;
     return this.loginForm.valid && validPassword;
   }
 
