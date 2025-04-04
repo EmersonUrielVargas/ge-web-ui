@@ -20,6 +20,10 @@ export class ReservationsService {
     return this.global.get(`${environments.URL_EVENTS_MNGR}/reservations/user/${userId}`);
   }
 
+  getReservationByIds(userId: number, eventId: number): Observable<IReservations>{
+    return this.global.get(`${environments.URL_EVENTS_MNGR}/reservations/${userId}/${eventId}`);
+  }
+
   getReservationsByEvent(eventId: number): Observable<IReservations[]>{
     return this.global.get(`${environments.URL_EVENTS_MNGR}/reservations/event/${eventId}`);
   }

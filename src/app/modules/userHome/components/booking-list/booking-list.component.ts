@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { AuthService } from '../../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'agent-booking-list',
@@ -36,19 +37,29 @@ import { ToastModule } from 'primeng/toast';
 export class BookingListComponent implements OnInit {
 
   reservations: IReservations[] = [];
+  currentUser!: UserData;
+
   
   constructor(
-    private router: Router,
     private reservationService: ReservationsService,
-    private storage: StoreService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService,
+
   ){
 
   }
   ngOnInit(): void {
-    const user:UserData = this.storage.getItemSession(Constants.storageKeys.session.user);
-    this.reservationService.getReservationsByUser(user.id).subscribe({
+    this.authService.currentUser$.subscribe(user=>{
+      if (user) {
+        this.currentUser = user;
+      }
+    });
+    this.getReservationsByUser();
+  }
+
+  getReservationsByUser(){
+    this.reservationService.getReservationsByUser(this.currentUser.id).subscribe({
       next:(response)=>{
         if (response) {
           this.reservations= response;
@@ -83,7 +94,24 @@ export class BookingListComponent implements OnInit {
     }
     this.reservationService.cancelReservation(reservationData).subscribe({
       next:()=>{
-
+        this.getReservationsByUser();
+        this.messageService.add(
+          {
+            severity: 'success',
+            summary: 'Excelente!',
+            detail: 'Tu reserva se ha realizado exitosamente',
+            life: 3000
+          });
+      },
+      error: (error)=>{
+        console.log('error del back', error)
+        this.messageService.add(
+          {
+            severity: 'error',
+            summary: 'Lo siento!',
+            detail: 'Ha ocurrido un error al realizar la reserva, intenta mas tarde!',
+            life: 3000
+          });
       }
     })
   }

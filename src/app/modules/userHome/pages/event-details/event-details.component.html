@@ -39,7 +39,7 @@
             <h3 class="pb-2">Reservas del evento</h3>
             <reservationsUser-list [eventId]="eventDetails.id"></reservationsUser-list>
         }@else{
-            @if (eventDetails.status.description === 'Active') {
+            @if (eventDetails.status.description === 'Active' && !haveReservation) {
                 <div class="flex justify-content-start col-12">
                     <p-button
                         class=""
@@ -53,7 +53,7 @@
                 </div>
             }
             @else {
-                <p class="font-medium">Este evento ya no tiene cupos disponibles</p>
+                <p class="font-medium">{{validateReservation()}}</p>
             }
         }
     </div>

@@ -20,7 +20,7 @@ import { BadgeModule } from 'primeng/badge';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { UserData } from '../../../../core/interfaces/IUserData';
 import { reservationsUserListComponent } from "../../components/reservationsUser-list/reservationsUser-list.component";
-import { IRegisterReservation } from '../../../../domains/interfaces/IReservations';
+import { IRegisterReservation, IReservations } from '../../../../domains/interfaces/IReservations';
 import { ReservationsService } from '../../../../core/services/reservations/reservations.service';
 
 
@@ -56,6 +56,7 @@ export class EventDetailsComponent implements OnInit{
   isOwnerEvent = false;
   eventDetails!: IEvent;
   currentUser!: UserData;
+  haveReservation!: IReservations;
 
 
   eventDataForm!: IGenericForm<IRegisterEvent>;
@@ -109,6 +110,7 @@ export class EventDetailsComponent implements OnInit{
         if (response) {
           this.eventDetails = response;
           this.isOwnerEvent = this.currentUser?.id === this.eventDetails.organizerId.id;
+          this.findReservation();
         }
       }
     });
@@ -142,6 +144,25 @@ export class EventDetailsComponent implements OnInit{
           });
       }
     })
+  }
+
+  validateReservation(){
+    if (this.haveReservation) {
+      return `Tu reserva para este evento se encuentra ${this.haveReservation.isActive?'activa': 'cancelada'}`
+    }else{
+      return 'Este evento ya no tiene cupos disponibles'
+    }
+  }
+
+  findReservation(){
+    this.reservationService.getReservationByIds(this.currentUser.id, this.eventDetails.id).subscribe({
+      next: (response)=>{
+        if(response){
+          this.haveReservation = response;
+        }
+      },
+      error: ()=>{}
+    });
   }
 
   enableEditForm(){

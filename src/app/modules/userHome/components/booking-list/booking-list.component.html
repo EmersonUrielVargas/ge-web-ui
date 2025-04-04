@@ -24,16 +24,18 @@
                     <td>
                         <p-tag [value]="reservation.isActive?'Active':'Canceled'" [severity]="reservation.isActive?'success':'secondary'" />
                     </td>
-                    <td>
-                        <p-button
-                            pButton
-                            size="small"
-                            label="cancelar Reserva"
-                            icon="pi pi-book"
-                            (click)="confirmCancelReservation(reservation)"
-                            severity="danger"
-                            rounded />
-                    </td>
+                    @if (reservation.isActive) {
+                        <td>
+                            <p-button
+                                pButton
+                                size="small"
+                                label="cancelar Reserva"
+                                icon="pi pi-book"
+                                (click)="confirmCancelReservation(reservation)"
+                                severity="danger"
+                                rounded />
+                        </td>
+                    }
                 </tr>
             </ng-template>
         </p-table>
