@@ -67,7 +67,6 @@ export class LoginComponent implements OnInit{
   logginUser(){
     this.authService.loginUser(this.loginForm.value).subscribe({
       next:(response)=>{
-        console.log('vamos pa laruta')
         this.router.navigateByUrl('/userHome');
       },
       error:()=>{
@@ -119,10 +118,14 @@ export class LoginComponent implements OnInit{
     if (this.isloggin()) {
       this.loginForm.get('name')?.clearValidators();
       this.loginForm.get('confirmPassword')?.clearValidators();
+      this.loginForm.get('name')?.updateValueAndValidity();
+      this.loginForm.get('confirmPassword')?.updateValueAndValidity();
       
     } else {
       this.loginForm.get('name')?.setValidators([Validators.required]);
       this.loginForm.get('confirmPassword')?.setValidators([Validators.required]);
+      this.loginForm.get('name')?.updateValueAndValidity();
+      this.loginForm.get('confirmPassword')?.updateValueAndValidity();
       
     }
     setTimeout(() => this.cdr.detectChanges(), 1); 
