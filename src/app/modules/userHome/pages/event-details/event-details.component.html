@@ -1,0 +1,72 @@
+<p-card class="grid mb-2 mx-2 px-2 py-2" styleClass="col-12 px-4" >
+    <div class="grid">
+        @if (eventDetails) {
+            <div class="col flex justify-content-start align-items-center  gap-4 pl-2">
+                <div class="">
+                    <h1 class=" mt-4 mb-1">{{eventDetails.name}}</h1>
+                    <p-tag class="mt-2" [value]="eventDetails.status.description" [severity]="'success'" />
+                    <p class=" mt-3 mb-1 font-medium">{{eventDetails.location}}</p>
+                    <p class=" mt-2 mb-3 font-medium">{{eventDetails.eventDate | date: 'medium'}}</p>
+                    <div class="flex flex-row gap-2">
+                        <p class=" mt-1 font-medium">Cupos totales: </p>
+                        <p-badge [value]="eventDetails.attendeesSize"  badgeSize="large" severity="success" />
+                    </div>
+                    <p class=" mt-1 font-light">{{eventDetails.description}}</p>
+                    @if (!isOwnerEvent) {
+                        <div>
+                            <p class="font-light">Organizador: {{eventDetails.organizerId.name}}</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        @if(isOwnerEvent){
+            <div class="flex justify-content-start col-12 sm:col-2 sm:justify-content-end">
+                <p-button
+                    class=""
+                    pButton
+                    size="large"
+                    label=""
+                    icon="pi pi-pencil"
+                    (click)="enableEditForm()"
+                    severity="primary"
+                    rounded />
+            </div>
+        }
+    </div>
+    <div class=" mt-4">
+        @if(isOwnerEvent){
+            <h3 class="pb-2">Reservas del evento</h3>
+            <reservationsUser-list [eventId]="eventDetails.id"></reservationsUser-list>
+        }@else{
+            @if (eventDetails.status.description === 'Active') {
+                <div class="flex justify-content-start col-12">
+                    <p-button
+                        class=""
+                        pButton
+                        size="large"
+                        label="Reservar un cupo"
+                        icon="pi pi-check-circle"
+                        (click)="confirmReservation($event)"
+                        severity="primary"
+                        rounded />
+                </div>
+            }
+            @else {
+                <p class="font-medium">Este evento ya no tiene cupos disponibles</p>
+            }
+        }
+    </div>
+</p-card>
+<p-dialog [header]="dialogInfo().title" [modal]="true" [(visible)]="showDialog" [style]="{ width: '50rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <register-event [preloadData]="eventDetails" [isUpdate]="true" (formEventData)="saveEventData($event)"></register-event>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button pButton size="small" [label]="dialogInfo().labelBtnCancel" severity="secondary" (click)="showDialog = false" />
+        <p-button pButton size="small" [label]="dialogInfo().labelBtnAccept" (onClick)="dialogAccept()" />
+    </div>
+</p-dialog>
+<p-toast />
+<p-confirmdialog />
+

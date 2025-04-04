@@ -1,0 +1,43 @@
+<div class="card">
+    @if (reservations.length === 0) {
+        <p class="font-medium">Parece que aun no has realizado ninguna reserva!</p>
+    }@else{
+        <p-table 
+            [rows]="5"
+            [paginator]="true"
+            [value]="reservations"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template #header>
+                <tr>
+                    <th>Nombre Evento</th>
+                    <th>Fecha Evento</th>
+                    <th>Ubicacion</th>
+                    <th>Estado Reserva</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-reservation>
+                <tr class="font-normal">
+                    <td>{{ reservation.event.name }}</td>
+                    <td>{{ reservation.event.eventDate | date: 'medium' }}</td>
+                    <td>{{ reservation.event.location }}</td>
+                    <td>
+                        <p-tag [value]="reservation.isActive?'Active':'Canceled'" [severity]="reservation.isActive?'success':'secondary'" />
+                    </td>
+                    <td>
+                        <p-button
+                            pButton
+                            size="small"
+                            label="cancelar Reserva"
+                            icon="pi pi-book"
+                            (click)="confirmCancelReservation(reservation)"
+                            severity="danger"
+                            rounded />
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>
+<p-toast />
+<p-confirmdialog />

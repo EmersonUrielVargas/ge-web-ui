@@ -1,0 +1,41 @@
+<div class="card">
+    <p-table
+        [rows]="5"
+        [paginator]="true"
+        [value]="eventList"
+        [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha del evento</th>
+                <th>Ubicacion del evento</th>
+                <th>Estado</th>
+                <th>Cupos totales</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-event>
+            <tr class="font-normal">
+                <td>{{ event.name }}</td>
+                <td>{{ event.eventDate | date: 'medium' }}</td>
+                <td>{{ event.location }}</td>
+                <td>
+                    <p-tag [value]="event.status.description" [severity]="getSeverity(event.status.description)" />
+                </td>
+                <td>
+                    <p-badge [value]="event.attendeesSize"  badgeSize="xlarge" severity="success" />
+                </td>
+                <td>
+                    <p-button
+                        pButton
+                        size="small"
+                        label="Ver detalles"
+                        icon="pi pi-eye"
+                        (click)="selectEvent(event)"
+                        severity="secondary"
+                        rounded />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div> 
